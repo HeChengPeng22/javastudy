@@ -30,6 +30,7 @@ public class Demo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        DBUtils.closeConnection();
         return customers;
     }
 
@@ -56,6 +57,7 @@ public class Demo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        DBUtils.closeConnection();
         return customers;
     }
 
@@ -74,6 +76,7 @@ public class Demo {
         }else{
             System.out.println("添加成功");
         }
+        DBUtils.closeConnection();
     }
 
     /**
@@ -89,6 +92,7 @@ public class Demo {
                 return;
             }
         }
+        DBUtils.closeConnection();
         System.out.println("数据不存在");
     }
     /**
@@ -107,6 +111,7 @@ public class Demo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        DBUtils.closeConnection();
         return true;
     }
 
@@ -129,6 +134,7 @@ public class Demo {
                 return;
             }
         }
+        DBUtils.closeConnection();
         System.out.println("修改失败,邮箱已存在");
 
     }
@@ -139,6 +145,7 @@ public class Demo {
 
     public static void main(String[] args) {
         List<Customers> list = getList();
+
         for (Customers customers : list) {
             System.out.println("customers = " + customers);
         }

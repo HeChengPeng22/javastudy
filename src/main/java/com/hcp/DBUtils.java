@@ -13,6 +13,9 @@ public class DBUtils {
 
     private final static String PASSWORD = "123456";
 
+    static Connection connection = null;
+    static PreparedStatement preparedStatement = null;
+    static ResultSet resultSet = null;
     /**
      * 获取连接
      * @return
@@ -24,11 +27,8 @@ public class DBUtils {
 
     /**
      * 释放资源/关闭连接
-     * @param connection
-     * @param preparedStatement
-     * @param resultSet
      */
-    public static void closeConnection(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet){
+    public static void closeConnection(){
         try{
             if (resultSet != null){
                 resultSet.close();
@@ -45,9 +45,6 @@ public class DBUtils {
     }
 
     public static ResultSet executeQuery(String sql,String... params )throws SQLException{
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             connection = getConnection();
