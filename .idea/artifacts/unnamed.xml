@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="unnamed">
+    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
+    <root id="archive" name="unnamed.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="extracted-dir" path="D:/software/repository/javax/activation/activation/1.1/activation-1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/software/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/software/repository/javax/mail/mail/1.4.7/mail-1.4.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/software/repository/org/apache/commons/commons-pool2/2.9.0/commons-pool2-2.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/software/repository/mysql/mysql-connector-java/8.0.26/mysql-connector-java-8.0.26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/software/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/software/repository/redis/clients/jedis/3.6.0/jedis-3.6.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

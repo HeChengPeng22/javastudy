@@ -30,7 +30,6 @@ public class Demo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        DBUtils.closeConnection();
         return customers;
     }
 
@@ -57,7 +56,6 @@ public class Demo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        DBUtils.closeConnection();
         return customers;
     }
 
@@ -66,8 +64,8 @@ public class Demo {
      * @param customers
      */
     public static void insert(Customers customers){
-        if (isExist(customers.getEmail())){
-
+        if (!isExist(customers.getEmail())){
+            return;
         }
         int i = DBUtils.executeUpdate("insert into Customers (customer_name,email,phone_number,address,date_registered) value(?,?,?,?,?)",
                 customers.getCustomerName(),customers.getEmail(),customers.getPhoneNumber(),customers.getAddress(),customers.getDate());
@@ -76,7 +74,6 @@ public class Demo {
         }else{
             System.out.println("添加成功");
         }
-        DBUtils.closeConnection();
     }
 
     /**
@@ -92,7 +89,6 @@ public class Demo {
                 return;
             }
         }
-        DBUtils.closeConnection();
         System.out.println("数据不存在");
     }
     /**
@@ -111,7 +107,6 @@ public class Demo {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        DBUtils.closeConnection();
         return true;
     }
 
@@ -134,7 +129,6 @@ public class Demo {
                 return;
             }
         }
-        DBUtils.closeConnection();
         System.out.println("修改失败,邮箱已存在");
 
     }
@@ -152,15 +146,14 @@ public class Demo {
         Customers byId = getById("1");
         System.out.println("byId = " + byId);
 
-        if (isExist("2582721513@qq.com")){
-            Customers customers = new Customers(null,"Breg","2582721513@qq.com","12321312","中国",Date.valueOf("2023-03-01"));
-            insert(customers);
-        }
+        Customers customers = new Customers(null,"Breg","2582721513@qq.com","12321312","中国",Date.valueOf("2023-03-01"));
+        insert(customers);
+
 
         delete("3");
-        Customers customers = new Customers("3","何C","258@qq.com","15221864941","中国",null);
-        update(customers);
-
+        Customers customers1 = new Customers("3","何C","258@qq.com","15221864941","中国",null);
+        update(customers1);
+        DBUtils.closeConnection();
         send();
     }
 }
