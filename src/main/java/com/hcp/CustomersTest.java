@@ -17,6 +17,11 @@ public class CustomersTest {
 
     public static void main(String[] args) {
         CustomersDao customersDao = new CustomersDao();
+
+        List<Customers> breg = customersDao.getList(1, 10, "eg");
+        for (Customers customers : breg) {
+            System.out.println("customers1 = " + customers);
+        }
         List<Customers> list = customersDao.getList(2,10);
 
         for (Customers customers : list) {

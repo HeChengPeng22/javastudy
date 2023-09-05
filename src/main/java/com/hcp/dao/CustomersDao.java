@@ -41,7 +41,6 @@ public class CustomersDao {
         int startIndex = (pageNumber - 1) * pageSize;
         try {
             ResultSet resultSet = DBUtils.executeQuery("select * from customers limit ?,?", startIndex, pageSize);
-            Customers customers1 = null;
             while (resultSet.next()){
                 String customerId = resultSet.getString("customer_id");
                 String customerName = resultSet.getString("customer_name");
@@ -49,7 +48,33 @@ public class CustomersDao {
                 String phoneNumber = resultSet.getString("phone_number");
                 String address = resultSet.getString("address");
                 Date date = resultSet.getDate("date_registered");
-                customers1 = new Customers(customerId,customerName,email,phoneNumber,address,date);
+                Customers customers1 = new Customers(customerId,customerName,email,phoneNumber,address,date);
+                customers.add(customers1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return customers;
+    }
+
+    public List<Customers> getList(Integer pageNum,Integer pageSize,String customerName){
+        List<Customers> customers = new ArrayList<>();
+        Integer startIndex = (pageNum-1)*pageSize;
+        String sql = "select * from customers where 1=1";
+        if (customerName != null){
+            sql += " and  customer_name like '%"+customerName+"%'";
+        }
+        sql += " limit ?,?";
+        try {
+            ResultSet resultSet = DBUtils.executeQuery(sql, startIndex, pageSize);
+            while (resultSet.next()){
+                String customerId = resultSet.getString("customer_id");
+                String customerNames = resultSet.getString("customer_name");
+                String email = resultSet.getString("email");
+                String phoneNumber = resultSet.getString("phone_number");
+                String address = resultSet.getString("address");
+                Date date = resultSet.getDate("date_registered");
+                Customers customers1 = new Customers(customerId,customerNames,email,phoneNumber,address,date);
                 customers.add(customers1);
             }
         } catch (SQLException e) {
