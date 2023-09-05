@@ -23,13 +23,14 @@ public class OrdersDao {
         String sql = "select * from orders";
         List<Orders> ordersList = new ArrayList<>();
         try(ResultSet resultSet = DBUtils.executeQuery(sql)) {
-            // Orders orders = new Orders 如果要保证迭代时不覆盖 1.将对象创建到while外
+            // Orders orders = new Orders 1.将对象创建到while外
+            // 2.orders.setOrderId(resultSet.getInt("order_id")); 在循环中，从数据源（例如 ResultSet）中检索当前迭代的属性值。
+            // 3.使用每次迭代的检索值更新现有对象的属性。例如以上写法 会导致属性覆盖 因为每次add()都是引用地址和修改属性
+
             // Orders orders = null; 将此代码写在while外虽然不会一直创建新的对象也可以节省内存分配和垃圾回收的开销
             //如果一直不创建新的对象，而是重复使用一个对象，则每次迭代会修改同一个对象的属性值
             //可能会导致ordersList中所有orders对象都拥有相同的属性值
             while (resultSet.next()){
-                // 2.orders.setOrderId(resultSet.getInt("order_id")); 在循环中，从数据源（例如 ResultSet）中检索当前迭代的属性值。
-                // 3.使用每次迭代的检索值更新现有对象的属性。例如以上写法
                 Integer orderId = resultSet.getInt(1);
                 Integer customerId = resultSet.getInt(2);
                 Date orderDate = resultSet.getDate(3);

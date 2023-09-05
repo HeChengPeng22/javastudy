@@ -1,18 +1,20 @@
 package com.hcp.utils;
 
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * 数据库连接工具
  */
 public class DBUtils {
-
-    private final static String URL = "jdbc:mysql://192.168.2.229:3306/javaStudy02?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false";
-
-    private final static String USERNAME = "root";
-
-    private final static String PASSWORD = "123456";
+//    private final static String URL = "jdbc:mysql://192.168.2.229:3306/javaStudy02?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false";
+//
+//    private final static String USERNAME = "root";
+//
+//    private final static String PASSWORD = "123456";
 
     static Connection connection;
     static PreparedStatement preparedStatement;
@@ -25,12 +27,13 @@ public class DBUtils {
      * @throws SQLException
      */
     static {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        Properties pp = new Properties();
+        try (InputStream input =DBUtils.class.getClassLoader()
+                .getResourceAsStream("db.properties");){
+            pp.load(input);
+            Class.forName(pp.getProperty("db.driver"));
+            connection = DriverManager.getConnection(pp.getProperty("db.url"),pp.getProperty("db.username"),pp.getProperty("db.password"));
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
