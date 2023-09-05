@@ -1,4 +1,4 @@
-package com.hcp;
+package com.hcp.pojo;
 
 import java.io.Serializable;
 import java.sql.Date;

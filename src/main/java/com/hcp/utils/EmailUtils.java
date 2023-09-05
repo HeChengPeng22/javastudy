@@ -1,5 +1,7 @@
-package com.hcp;
+package com.hcp.utils;
 
+
+import com.hcp.utils.EnumTest;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -47,6 +49,7 @@ public class EmailUtils {
             System.out.println("Email sent successfully.");
         } catch (MessagingException e) {
             e.printStackTrace();
+            System.out.println(EnumTest.EMAIL_FAIL);
         }
     }
 

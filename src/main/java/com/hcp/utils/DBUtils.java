@@ -1,4 +1,4 @@
-package com.hcp;
+package com.hcp.utils;
 
 
 import java.sql.*;
@@ -55,12 +55,12 @@ public class DBUtils {
         }
     }
 
-    public static ResultSet executeQuery(String sql,String... params )throws SQLException{
+    public static ResultSet executeQuery(String sql,Object... params )throws SQLException{
 
         try {
             preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
-                preparedStatement.setString(i+1,params[i]);
+                preparedStatement.setObject(i+1, params[i]);
             }
 
             resultSet = preparedStatement.executeQuery();

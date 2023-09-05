@@ -42,7 +42,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.hcp.Demo</mainClass>
+                            <mainClass>com.hcp.CustomersTest</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

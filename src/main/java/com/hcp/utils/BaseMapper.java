@@ -1,4 +1,4 @@
-package com.hcp;
+package com.hcp.utils;
 
 import java.io.Serializable;
 import java.util.List;

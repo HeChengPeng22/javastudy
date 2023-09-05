@@ -1,4 +1,8 @@
-package com.hcp;
+package com.hcp.dao;
+
+import com.hcp.pojo.Customers;
+import com.hcp.utils.DBUtils;
+import com.hcp.utils.EnumTest;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -6,13 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Demo {
-
+public class CustomersDao {
     /**
      * 查询全部
      * @return
      */
-    public static List<Customers> getList() {
+    public List<Customers> getList() {
         List<Customers> customers = new ArrayList<>();
         try {
             ResultSet resultSet = DBUtils.executeQuery("select * from customers");
@@ -33,12 +36,33 @@ public class Demo {
         return customers;
     }
 
+    public List<Customers> getList(Integer pageNumber,Integer pageSize){
+        List<Customers> customers = new ArrayList<>();
+        int startIndex = (pageNumber - 1) * pageSize;
+        try {
+            ResultSet resultSet = DBUtils.executeQuery("select * from customers limit ?,?", startIndex, pageSize);
+            Customers customers1 = null;
+            while (resultSet.next()){
+                String customerId = resultSet.getString("customer_id");
+                String customerName = resultSet.getString("customer_name");
+                String email = resultSet.getString("email");
+                String phoneNumber = resultSet.getString("phone_number");
+                String address = resultSet.getString("address");
+                Date date = resultSet.getDate("date_registered");
+                customers1 = new Customers(customerId,customerName,email,phoneNumber,address,date);
+                customers.add(customers1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return customers;
+    }
     /**
      * 根据ID查询
      * @param id
      * @return
      */
-    public static Customers getById(String id){
+    public Customers getById(String id){
 
         Customers customers = null;
         try {
@@ -63,7 +87,7 @@ public class Demo {
      * 新增
      * @param customers
      */
-    public static void insert(Customers customers){
+    public void insert(Customers customers){
         if (!isExist(customers.getEmail())){
             return;
         }
@@ -80,7 +104,7 @@ public class Demo {
      * 删除
      * @param id
      */
-    public static void delete(String id){
+    public void delete(String id){
         Customers byId = getById(id);
         if (byId!=null){
             int i = DBUtils.executeUpdate("delete from Customers where customer_id = ?", id);
@@ -96,12 +120,12 @@ public class Demo {
      * @param email
      * @return
      */
-    public static boolean isExist(String email){
+    public boolean isExist(String email){
 
         try {
             ResultSet resultSet = DBUtils.executeQuery("select * from Customers where email = ?", email);
             if (resultSet.next()){
-                System.out.println("邮箱被占用");
+                System.out.println(EnumTest.EMAIL_EXIST);
                 return false;
             }
         } catch (SQLException e) {
@@ -114,46 +138,21 @@ public class Demo {
      * 修改
      * @param customers
      */
-    public static void update(Customers customers){
+    public void update(Customers customers){
         if(getById(customers.getCustomerId()) == null){
             System.out.println("需要修改的数据不存在");
+            System.out.println(EnumTest.FAIL);
             return;
         }
         if (isExist(customers.getEmail())){
             int rowsAffected  = DBUtils.executeUpdate("update Customers set customer_name = ?,email = ?,phone_number = ?,address = ? where customer_id = ?",
                     customers.getCustomerName(), customers.getEmail(), customers.getPhoneNumber(), customers.getAddress(), customers.getCustomerId());
             if (rowsAffected >0){
-                System.out.println("修改成功");
-                Customers customerInfo = getById(customers.getCustomerId());
-                System.out.println("customerInfo = " + customerInfo);
+                System.out.println(EnumTest.SUCCESS);
                 return;
             }
         }
-        System.out.println("修改失败,邮箱已存在");
+        System.out.println(EnumTest.EMAIL_EXIST);
 
-    }
-
-    public static void send(){
-        EmailUtils.sendEmail("2273465764@qq.com","主题","内容");
-    }
-
-    public static void main(String[] args) {
-        List<Customers> list = getList();
-
-        for (Customers customers : list) {
-            System.out.println("customers = " + customers);
-        }
-        Customers byId = getById("1");
-        System.out.println("byId = " + byId);
-
-        Customers customers = new Customers(null,"Breg","2582721513@qq.com","12321312","中国",Date.valueOf("2023-03-01"));
-        insert(customers);
-
-
-        delete("3");
-        Customers customers1 = new Customers("3","何C","258@qq.com","15221864941","中国",null);
-        update(customers1);
-        DBUtils.closeConnection();
-        send();
     }
 }

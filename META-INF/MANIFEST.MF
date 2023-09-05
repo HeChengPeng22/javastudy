@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: com.hcp.Demo
+Main-Class: com.hcp.CustomersTest
 Class-Path: com/hcp/Demo.class
 
